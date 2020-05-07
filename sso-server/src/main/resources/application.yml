@@ -1,0 +1,27 @@
+# 외부 DB 설정시 아래의 주석을 활성화 시킨 후 관련 DB 설정 정보를 입력한다.
+server:
+  port: 8181
+  session:
+    cookie:
+      name: APPSESSIONID
+
+spring:
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:oracle:thin:@qclass.iptime.org:1521:xe
+    driverClassName: oracle.jdbc.OracleDriver
+    username: bigfinal03
+    password: bigfinal03
+
+logging.level:
+  root: warn
+  org.springframework:
+    web: warn
+    security: info
+    boot: info
+  org.hibernate:
+    SQL: warn
+  com.nextree: debug

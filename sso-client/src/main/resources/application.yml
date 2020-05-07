@@ -1,0 +1,22 @@
+server:
+  port: 18010
+  context-path: /
+
+systemName: System1
+  
+spring:  
+  batch:
+    job:
+      enabled: false
+  datasource:
+    url: jdbc:oracle:thin:@qclass.iptime.org:1521:xe
+    driverClassName: oracle.jdbc.OracleDriver
+    username: bigfinal03
+    password: bigfinal03
+
+    
+logging.level:
+  root: warn
+  org.springframework:
+    boot: info
+  com.acompany.asystem: debug
