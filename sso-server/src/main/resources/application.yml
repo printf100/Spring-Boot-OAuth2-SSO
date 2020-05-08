@@ -1,6 +1,6 @@
 # 외부 DB 설정시 아래의 주석을 활성화 시킨 후 관련 DB 설정 정보를 입력한다.
 server:
-  port: 8181
+  port: 8585
   session:
     cookie:
       name: APPSESSIONID
@@ -15,6 +15,10 @@ spring:
     driverClassName: oracle.jdbc.OracleDriver
     username: bigfinal03
     password: bigfinal03
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
 
 logging.level:
   root: warn

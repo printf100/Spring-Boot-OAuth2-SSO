@@ -27,6 +27,9 @@ public class SsoController {
 	@Value("${systemName}")
 	private String systemName;
 	
+	@Value("${ssoServerPort}")
+	private String ssoServerPort;
+	
 	@Value("${server.port}")
 	private int serverPort;
 	
@@ -90,7 +93,7 @@ public class SsoController {
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append("redirect:");
-		builder.append("http://localhost:8585/oauth/authorize");
+		builder.append("http://localhost:" + ssoServerPort + "/oauth/authorize");
 		builder.append("?response_type=code");
 		builder.append("&client_id=");
 		builder.append(getOAuthClientId());
@@ -107,7 +110,7 @@ public class SsoController {
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout() {
 		//
-		return "redirect:http://localhost:8585/userLogout?clientId=" + getOAuthClientId();
+		return "redirect:http://localhost:" + ssoServerPort + "/userLogout?clientId=" + getOAuthClientId();
 	}
 	
 	@RequestMapping(value="/logout", method=RequestMethod.POST)

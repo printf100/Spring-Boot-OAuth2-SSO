@@ -1,8 +1,9 @@
 server:
-  port: 18010
+  port: 8888
   context-path: /
 
-systemName: System1
+ssoServerPort: 8585
+systemName: DEVS_GROUP
   
 spring:  
   batch:
