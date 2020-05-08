@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 
 <!-- START :: js import -->
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- END :: js import -->
 
 
@@ -22,7 +22,7 @@
 			<h1>DEVS</h1>
 			
 			<div>				
-				<form action="/login" method="post">			
+				<form action="/loginProcess" method="post">			
 					<!-- 이메일 -->
 					<input type="text" name="member_id" required="required" placeholder="전화번호, 사용자 이름 또는 이메일">
 					
@@ -64,7 +64,7 @@
 	 
 	 	<div>
 			계정이 없으신가요?
-			<a href="/join">&nbsp;가입하기 </a>
+			<a href="/as">&nbsp;가입하기 </a>
 		</div>
 	</section>
 

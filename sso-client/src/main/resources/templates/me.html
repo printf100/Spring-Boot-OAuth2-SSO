@@ -46,7 +46,7 @@ header {
 			</ul>
 			<ul th:if="${session.user} != null" class="nav navbar-nav navbar-right">
 				<li><a th:href="@{/logout}">로그아웃
-						[<span th:text="${session.user.userName}"></span>]</a></li>
+						[<span th:text="${session.user.memberid}"></span>]</a></li>
 			</ul>
 		</div>
 	</div>
@@ -70,9 +70,9 @@ header {
 	<div class="row">
 	
 		<div th:if="${session.user} != null" th:object="${user}">
-			<h5><span class="label label-default">이름</span> <span th:text="*{userName}">UserName</span></h5>
-			<h5><span class="label label-default">나이</span> <span th:text="*{age}">Age</span></h5>
-			<h5><span class="label label-default">메모</span> <span th:text="*{memo}">Memo</span></h5>
+			<h5><span class="label label-default">아이디</span> <span th:text="*{memberid}">memberid</span></h5>
+			<h5><span class="label label-default">이름</span> <span th:text="*{membername}">membername</span></h5>
+			<h5><span class="label label-default">이메일</span> <span th:text="*{memberemail}">memberemail</span></h5>
 		</div>
 		<div th:if="${session.user} == null" class="col-sm-9 col-lg-9">
 			<h5><span class="label label-default">로그인하지 않았습니다.</span></h5>
