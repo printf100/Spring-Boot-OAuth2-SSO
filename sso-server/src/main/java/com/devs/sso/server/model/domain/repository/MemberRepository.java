@@ -9,12 +9,10 @@ import com.devs.sso.server.model.domain.entity.Member;
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 
 	// 로그인
-	public Member findByMemberemailAndMemberpassword(String memberemail, String memberpassword);
-
-	public Member findByMemberphoneAndMemberpassword(String memberphone, String memberpassword);
-
-	public Member findByMemberidAndMemberpassword(String memberid, String memberpassword);
-
 	public Member findByMemberid(String memberid);
+
+	public Member findByMemberemail(String memberemail);
+
+	public Member findByMemberphone(String memberphone);
 
 }

@@ -73,25 +73,52 @@
 <script type="text/javascript">
 
 	$(function() {
+		var memberaccount = "";
+
+		if($("input[name='memberaccount']").length > 0) {
+			memberaccount = $("input[name='memberaccount']");
+		}
 		
+		if($("input[name='memberemail']").length > 0) {
+			memberaccount = $("input[name='memberemail']");
+		}
+		
+		if($("input[name='memberphone']").length > 0) {
+			memberaccount = $("input[name='memberphone']");
+		}
+
 		// 이메일 정규식
 		var regExpEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 		
 		// 핸드폰번호 정규식 (010-1234-1234)
 		var regExpPhone = /^\d{3}-\d{4}-\d{4}$/;
 		
+		memberaccount.keyup(function() {
+			accountValue = memberaccount.val();
+			console.log(accountValue);
+			
+			if(regExpEmail.test(accountValue)) { // 이메일 형식이라면
+				memberaccount.attr({
+					"name" : "memberemail"
+				})
+			
+			} else if(regExpPhone.test(accountValue)) {	// 핸드폰번호 형식이라면
+				memberaccount.attr({
+					"name" : "memberphone"
+				})
+			}
+			
+		});
 		
-		if(regExpEmail.test(memberaccount)) { // 이메일 형식이라면
-			$("input[name='memberaccount']").attr({
-				"name" : "memberemail"
-			})
-		
-		} else if(regExpPhone.test(memberaccount)) {	// 핸드폰번호 형식이라면
-			$("input[name='memberaccount']").attr({
-				"name" : "memberphone"
-			})
-		
-		}
+		$("#joinForm").submit(function(e) {
+			
+			if($("input[name='memberphone']").length > 0) {
+				var phoneValue = $("input[name='memberphone']").val();
+				 $("input[name='memberphone']").val(phoneValue.split("-").join(""));
+			}
+			
+			return true;
+		});
 		
 	});
 	

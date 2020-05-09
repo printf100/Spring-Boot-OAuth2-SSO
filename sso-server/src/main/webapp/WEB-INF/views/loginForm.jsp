@@ -64,7 +64,7 @@
 	 
 	 	<div>
 			계정이 없으신가요?
-			<a href="/as">&nbsp;가입하기 </a>
+			<a href="/signup">&nbsp;가입하기 </a>
 		</div>
 	</section>
 

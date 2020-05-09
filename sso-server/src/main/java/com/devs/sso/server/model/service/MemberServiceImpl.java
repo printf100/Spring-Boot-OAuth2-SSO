@@ -3,6 +3,8 @@ package com.devs.sso.server.model.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -18,55 +20,19 @@ import com.devs.sso.server.model.domain.entity.Member;
 import com.devs.sso.server.model.domain.repository.MemberRepository;
 import com.devs.sso.server.model.vo.MemberVo;
 
+import ch.qos.logback.core.pattern.parser.Parser;
+
 @Service
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberRepository memberRepository;
 
-//	@Override
-//	public Map<String, Object> login(MemberVo vo) {
-//		Map<String, Object> map = null;
-//
-//		MemberVo mres = null;
-//
-//		if (vo.getMemberemail() != null) {
-//			mres = memberRepository.findByMemberemailAndMemberpassword(vo.getMemberemail(), vo.getMemberpassword());
-//		} else if (vo.getMemberphone() != null) {
-//			mres = memberRepository.findByMemberphoneAndMemberpassword(vo.getMemberphone(), vo.getMemberpassword());
-//		} else {
-//			mres = memberRepository.findByMemberidAndMemberpassword(vo.getMemberid(), vo.getMemberpassword());
-//		}
-//
-//		System.out.println(mres);
-//		if (mres != null) {
-//			map = new HashMap<>();
-//			map.put("login", mres);
-//			return map;
-//		} else {
-//			return map; // 멤버 정보를 가져오지 못했다면 null인 객체를 return
-//		}
-//	}
+	/*
+	 * 회원가입
+	 */
 
-	@Override
-	public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
-
-		System.out.println(">>>>" + account);
-
-		Member member = memberRepository.findByMemberid(account);
-
-		System.out.println(">>>>>" + member);
-
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority("MEMBER"));
-
-		if (member != null) {
-			return new User(member.getMemberid(), member.getMemberpassword(), authorities);
-		} else {
-			throw new UsernameNotFoundException(account);
-		}
-	}
-
+	// 회원가입
 	@Override
 	public int join(MemberVo vo) {
 
@@ -78,24 +44,65 @@ public class MemberServiceImpl implements MemberService {
 		return memberRepository.save(member).getMembercode();
 	}
 
-	@Override
-	public Map<String, Object> login(Member vo) {
-		return null;
-	}
-
+	// 이메일 유효성 검증
 	@Override
 	public int emailCheck(Member vo) {
 		return 0;
 	}
 
+	// 아이디 유효성 검증
 	@Override
 	public int idCheck(Member vo) {
 		return 0;
 	}
 
+	/*
+	 * 로그인
+	 */
+
 	@Override
-	public Member snsLogin(Member vo) {
-		return null;
+	public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
+
+		System.out.println(">>>>" + account);
+
+		// 이메일 정규식
+		String regExpEmail = "^[_0-9a-zA-Z-]+@[0-9a-zA-Z-]+(.[_0-9a-zA-Z-]+)*$";
+		Pattern emailP = Pattern.compile(regExpEmail);
+		Matcher emailM = emailP.matcher(account);
+
+		// 핸드폰번호 정규식 (010-1234-1234)
+		String regExpPhone = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$";
+		Pattern phoneP = Pattern.compile(regExpPhone);
+		Matcher phoneM = phoneP.matcher(account);
+
+		Member member = null;
+
+		if (emailM.matches()) { // 이메일 형식이라면
+			System.out.println("-----------이메일");
+			member = memberRepository.findByMemberemail(account);
+
+		} else if (phoneM.matches()) { // 핸드폰번호 형식이라면
+			System.out.println("-----------핸드폰번호");
+			System.out.println("전 : " + account);
+			account = String.join("", account.split("-"));
+			System.out.println("후 : " + account);
+			member = memberRepository.findByMemberphone(account);
+
+		} else { // 아이디 형식이라면
+			System.out.println("-----------아이디");
+			member = memberRepository.findByMemberid(account);
+		}
+
+		System.out.println(">>>>>" + member);
+
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority("MEMBER"));
+
+		if (member != null) {
+			return new User(member.getMemberid(), member.getMemberpassword(), authorities);
+		} else {
+			throw new UsernameNotFoundException(account);
+		}
 	}
 
 }

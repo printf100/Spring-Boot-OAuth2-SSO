@@ -28,6 +28,9 @@ public class SsoController {
 	@Autowired
 	private SsoService ssoService;
 
+	@Autowired
+	private MemberService service;
+
 	@RequestMapping(value = "/userInfo", method = RequestMethod.POST)
 	@ResponseBody
 	public UserInfoResponse userInfo(@RequestParam(name = "token") String token,
@@ -61,6 +64,21 @@ public class SsoController {
 		request.getSession().invalidate();
 
 		return "redirect:" + baseUri;
+	}
+
+	@PostMapping(value = "/join")
+	public String join(MemberVo vo) {
+
+		System.out.println("member join as" + vo);
+		
+		int res = service.join(vo);
+
+		if (res > 0) {
+			return "loginForm";
+		} else {
+			return "join";
+		}
+
 	}
 
 }
