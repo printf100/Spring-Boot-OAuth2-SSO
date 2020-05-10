@@ -2,7 +2,6 @@ package com.devs.sso.server.model.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.devs.sso.server.model.domain.entity.Member;
 import com.devs.sso.server.model.vo.MemberVo;
 
 public interface MemberService extends UserDetailsService {
@@ -11,9 +10,9 @@ public interface MemberService extends UserDetailsService {
 	public int join(MemberVo vo);
 
 	// 이메일 유효성 검증
-	public int emailCheck(Member vo);
+	public Long emailCheck(String memberemail);
 
 	// 아이디 유효성 검증
-	public int idCheck(Member vo);
+	public Long idCheck(String memberid);
 
 }

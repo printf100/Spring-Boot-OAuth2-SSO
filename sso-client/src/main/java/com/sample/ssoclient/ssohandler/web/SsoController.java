@@ -10,13 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sample.ssoclient.ssohandler.domain.entity.Member;
 import com.sample.ssoclient.ssohandler.domain.vo.Response;
 import com.sample.ssoclient.ssohandler.domain.vo.TokenRequestResult;
 import com.sample.ssoclient.ssohandler.service.OAuthService;
@@ -32,6 +30,9 @@ public class SsoController {
 	@Value("${ssoServerPort}")
 	private String ssoServerPort;
 
+	@Value("${ssoDomain}")
+	private String ssoDomain;
+
 	@Value("${server.port}")
 	private int serverPort;
 
@@ -45,8 +46,8 @@ public class SsoController {
 
 	private String getOAuthRedirectUri() {
 		//
-//		redirect uri 체크
-//		return String.format("http://localhost:%d/oauthCall", serverPort);
+//      redirect uri 체크
+//      return String.format("http://localhost:%d/oauthCall", serverPort);
 		return String.format("http://localhost:%d/oauthCallback", serverPort);
 	}
 
@@ -54,8 +55,8 @@ public class SsoController {
 	public String oauthCallback(@RequestParam(name = "code") String code, @RequestParam(name = "state") String state,
 			HttpServletRequest request, ModelMap map) {
 		//
-//		state 체크
-//		String oauthState = "fdsfs";
+//      state 체크
+//      String oauthState = "fdsfs";
 		String oauthState = (String) request.getSession().getAttribute("oauthState");
 		request.getSession().removeAttribute("oauthState");
 		log.debug("\n## code, oauthState, state : {}, {}, {}", code, oauthState, state);
@@ -68,8 +69,8 @@ public class SsoController {
 			tokenRequestResult.setError("not matched state");
 		} else {
 			//
-//			코드 체크
-//			tokenRequestResult = oauthService.requestAccessTokenToAuthServer("abcd", request);
+//         코드 체크
+//         tokenRequestResult = oauthService.requestAccessTokenToAuthServer("abcd", request);
 			tokenRequestResult = oauthService.requestAccessTokenToAuthServer(code, request);
 		}
 
@@ -94,7 +95,7 @@ public class SsoController {
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("redirect:");
-		builder.append("http://localhost:" + ssoServerPort + "/oauth/authorize");
+		builder.append("http://" + ssoDomain + ":" + ssoServerPort + "/oauth/authorize");
 		builder.append("?response_type=code");
 		builder.append("&client_id=");
 		builder.append(getOAuthClientId());
@@ -112,7 +113,7 @@ public class SsoController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {
 		//
-		return "redirect:http://localhost:" + ssoServerPort + "/userLogout?clientId=" + getOAuthClientId();
+		return "redirect:http://" + ssoDomain + ":" + ssoServerPort + "/userLogout?clientId=" + getOAuthClientId();
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)

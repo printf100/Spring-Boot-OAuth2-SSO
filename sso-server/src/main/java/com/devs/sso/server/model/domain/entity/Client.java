@@ -6,20 +6,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="oauth_client_details")
+@Table(name = "oauth_client_details")
 public class Client {
 	//
 	@Id
-	@Column(name="client_id")
+	@Column(name = "client_id")
 	private String clientId;
-	
-	@Column(name="web_server_redirect_uri")
+
+	@Column(name = "web_server_redirect_uri")
 	private String redirectUri;
-	
-	@Column(name="logout_uri")
+
+	@Column(name = "logout_uri")
 	private String logoutUri;
-	
-	@Column(name="base_uri")
+
+	@Column(name = "base_uri")
 	private String baseUri;
 
 	@Override

@@ -30,45 +30,42 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 	//
 	private static final Logger log = LoggerFactory.getLogger(AuthorizationServerConfiguration.class);
-	
+
 	@Autowired
 	private AuthorizationCodeServices authorizationCodeServices;
-	
+
 	@Autowired
 	private ApprovalStore approvalStore;
-	
+
 	@Autowired
 	private TokenStore tokenStore;
-	
+
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		//
-		endpoints
-			.requestValidator(new AuthRequestValidator())
-			.tokenStore(tokenStore)
-			.authorizationCodeServices(authorizationCodeServices)
-			.approvalStore(approvalStore);
+		endpoints.requestValidator(new AuthRequestValidator()).tokenStore(tokenStore)
+				.authorizationCodeServices(authorizationCodeServices).approvalStore(approvalStore);
 	}
 
 //	@Override
 //	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 //		//
 //	}
-	
+
 	@Bean
 	public AuthorizationCodeServices jdbcAuthorizationCodeServices(DataSource dataSource) {
 		//
 		log.debug("\n## in jdbcAuthorizationCodeServices()");
 		return new JdbcAuthorizationCodeServices(dataSource);
 	}
-	
+
 	@Bean
 	public ApprovalStore jdbcApprovalStore(DataSource dataSource) {
 		//
 		log.debug("\n## in jdbcApprovalStore()");
 		return new JdbcApprovalStore(dataSource);
 	}
-	
+
 	@Bean
 	@Primary
 	public ClientDetailsService jdbcClientDetailsService(DataSource dataSource) {
@@ -76,7 +73,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		log.debug("\n## in jdbcClientDetailsService()");
 		return new JdbcClientDetailsService(dataSource);
 	}
-	
+
 	@Bean
 	public TokenStore jdbcTokenStore(DataSource dataSource) {
 		//
@@ -89,14 +86,14 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 class AuthRequestValidator implements OAuth2RequestValidator {
 	//
 	private static final Logger log = LoggerFactory.getLogger(AuthRequestValidator.class);
-	
+
 	@Override
 	public void validateScope(TokenRequest tokenRequest, ClientDetails client) throws InvalidScopeException {
 		//
 		log.debug("\n## validate TokenRequest : {}", tokenRequest);
 		log.debug("\n## validate client : {}", client);
 	}
-	
+
 	@Override
 	public void validateScope(AuthorizationRequest authorizationRequest, ClientDetails client)
 			throws InvalidScopeException {

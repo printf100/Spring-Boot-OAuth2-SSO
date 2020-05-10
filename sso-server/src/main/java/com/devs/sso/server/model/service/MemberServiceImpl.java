@@ -46,14 +46,14 @@ public class MemberServiceImpl implements MemberService {
 
 	// 이메일 유효성 검증
 	@Override
-	public int emailCheck(Member vo) {
-		return 0;
+	public Long emailCheck(String memberemail) {
+		return memberRepository.countByMemberemail(memberemail);
 	}
 
 	// 아이디 유효성 검증
 	@Override
-	public int idCheck(Member vo) {
-		return 0;
+	public Long idCheck(String memberid) {
+		return memberRepository.countByMemberid(memberid);
 	}
 
 	/*

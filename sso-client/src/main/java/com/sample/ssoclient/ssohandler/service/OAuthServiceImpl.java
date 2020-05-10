@@ -49,6 +49,9 @@ public class OAuthServiceImpl implements OAuthService {
 	@Value("${ssoServerPort}")
 	private String ssoServerPort;
 
+	@Value("${ssoDomain}")
+	private String ssoDomain;
+
 	@Value("${server.port}")
 	private int serverPort;
 
@@ -115,7 +118,8 @@ public class OAuthServiceImpl implements OAuthService {
 
 	private TokenRequestResult requestAccessTokenToAuthServer(String code) {
 		//
-		String reqUrl = "http://localhost:" + ssoServerPort + "/oauth/token";
+		String reqUrl = "http://" + ssoDomain + ":" + ssoServerPort + "/oauth/token";
+
 		String authorizationHeader = getAuthorizationRequestHeader();
 
 		Map<String, String> paramMap = new HashMap<>();
@@ -138,7 +142,7 @@ public class OAuthServiceImpl implements OAuthService {
 	private UserInfoResponse requestUserInfoToAuthServer(String token) {
 		//
 		String reqUrl = "http://localhost:" + ssoServerPort + "/userInfo";
-//		String authorizationHeader = getAuthorizationRequestHeader();
+//      String authorizationHeader = getAuthorizationRequestHeader();
 		String authorizationHeader = null;
 
 		Map<String, String> paramMap = new HashMap<>();

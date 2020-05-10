@@ -63,6 +63,8 @@ public class SsoServiceImpl implements SsoService {
 			MessageDigest digest = MessageDigest.getInstance("MD5");
 			
 			byte[] bytes = digest.digest(value.getBytes("UTF-8"));
+			System.out.println("---------extractTokenId : " + String.format("%032x", new BigInteger(1, bytes)));
+
 			return String.format("%032x", new BigInteger(1, bytes));
 		}
 		catch (NoSuchAlgorithmException e) {

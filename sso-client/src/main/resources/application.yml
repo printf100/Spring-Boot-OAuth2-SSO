@@ -2,6 +2,9 @@ server:
   port: 8888
   context-path: /
 
+#ssoDomain: 3.136.253.121
+ssoDomain: localhost
+
 ssoServerPort: 8585
 systemName: DEVS_GROUP
   
@@ -20,4 +23,4 @@ logging.level:
   root: warn
   org.springframework:
     boot: info
-  com.acompany.asystem: debug
+  com.sample.ssoclient: debug

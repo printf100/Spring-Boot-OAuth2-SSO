@@ -28,4 +28,4 @@ logging.level:
     boot: info
   org.hibernate:
     SQL: warn
-  com.nextree: debug
+  com.devs: debug
