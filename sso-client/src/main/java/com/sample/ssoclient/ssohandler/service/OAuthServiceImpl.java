@@ -49,11 +49,14 @@ public class OAuthServiceImpl implements OAuthService {
 	@Value("${ssoServerPort}")
 	private String ssoServerPort;
 
-	@Value("${ssoDomain}")
-	private String ssoDomain;
+	@Value("${ssoDoamin}")
+	private String ssoDoamin;
 
 	@Value("${server.port}")
 	private int serverPort;
+
+	@Value("${clientDomain}")
+	private String clientDomain;
 
 	private String authorizationRequestHeader;
 
@@ -69,7 +72,8 @@ public class OAuthServiceImpl implements OAuthService {
 
 	@Override
 	public TokenRequestResult requestAccessTokenToAuthServer(String code, HttpServletRequest request) {
-		//
+		log.debug("\n## requestAccessTokenToAuthServer()");
+
 		TokenRequestResult tokenRequestResult = requestAccessTokenToAuthServer(code);
 		log.debug("\n## tokenResult : '{}'\n", tokenRequestResult);
 
@@ -95,7 +99,8 @@ public class OAuthServiceImpl implements OAuthService {
 
 	@Override
 	public Response logout(String tokenId, String userName) {
-		//
+		log.debug("\n## logout()");
+
 		Response response = new Response();
 
 		log.debug("\n## logout {}", userName);
@@ -117,8 +122,9 @@ public class OAuthServiceImpl implements OAuthService {
 	}
 
 	private TokenRequestResult requestAccessTokenToAuthServer(String code) {
-		//
-		String reqUrl = "http://" + ssoDomain + ":" + ssoServerPort + "/oauth/token";
+		log.debug("\n## requestAccessTokenToAuthServer() : code {}", code);
+
+		String reqUrl = "http://" + ssoDoamin + ":" + ssoServerPort + "/oauth/token";
 
 		String authorizationHeader = getAuthorizationRequestHeader();
 
@@ -136,14 +142,16 @@ public class OAuthServiceImpl implements OAuthService {
 
 	private String getOAuthRedirectUri() {
 		//
-		return String.format("http://localhost:%d/oauthCallback", serverPort);
+		return String.format("http://" + clientDomain + ":%d/oauthCallback", serverPort);
 	}
 
 	private UserInfoResponse requestUserInfoToAuthServer(String token) {
+		log.debug("\n## requestUserInfoToAuthServer()");
+
 		//
-		String reqUrl = "http://localhost:" + ssoServerPort + "/userInfo";
-//      String authorizationHeader = getAuthorizationRequestHeader();
-		String authorizationHeader = null;
+		String reqUrl = "http://" + ssoDoamin + ":" + ssoServerPort + "/userInfo";
+		String authorizationHeader = getAuthorizationRequestHeader();
+//      String authorizationHeader = null;
 
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put("token", token);
@@ -157,13 +165,17 @@ public class OAuthServiceImpl implements OAuthService {
 	}
 
 	private <T> T executePostAndParseResult(HttpPost post, Class<T> clazz) {
-		//
+		log.debug("\n## executePostAndParseResult() : httpPost {}", post);
+
 		T result = null;
 		try {
 			HttpClient client = HttpClientBuilder.create().build();
 
 			HttpResponse response = client.execute(post);
+			log.debug("\n## executePostAndParseResult() : response {}", response);
+
 			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			log.debug("\n## executePostAndParseResult() : read response {}", rd);
 
 			StringBuffer resultBuffer = new StringBuffer();
 			String line = "";
@@ -182,8 +194,8 @@ public class OAuthServiceImpl implements OAuthService {
 	}
 
 	private HttpPost buildHttpPost(String reqUrl, Map<String, String> paramMap, String authorizationHeader) {
-		//
 		log.debug("\n## in buildHttpPost() reqUrl : {}", reqUrl);
+
 		HttpPost post = new HttpPost(reqUrl);
 		if (authorizationHeader != null) {
 			//
@@ -200,6 +212,7 @@ public class OAuthServiceImpl implements OAuthService {
 		} catch (UnsupportedEncodingException e) {
 			log.error(e.getMessage(), e);
 		}
+		log.debug("\n## final buildHttpPost() reqUrl : {}", post);
 		return post;
 	}
 

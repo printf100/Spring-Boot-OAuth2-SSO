@@ -30,11 +30,14 @@ public class SsoController {
 	@Value("${ssoServerPort}")
 	private String ssoServerPort;
 
-	@Value("${ssoDomain}")
-	private String ssoDomain;
+	@Value("${ssoDoamin}")
+	private String ssoDoamin;
 
 	@Value("${server.port}")
 	private int serverPort;
+
+	@Value("${clientDomain}")
+	private String clientDomain;
 
 	@Autowired
 	private OAuthService oauthService;
@@ -48,7 +51,7 @@ public class SsoController {
 		//
 //      redirect uri 체크
 //      return String.format("http://localhost:%d/oauthCall", serverPort);
-		return String.format("http://localhost:%d/oauthCallback", serverPort);
+		return String.format("http://" + clientDomain + ":%d/oauthCallback", serverPort);
 	}
 
 	@RequestMapping(value = "/oauthCallback", method = RequestMethod.GET)
@@ -95,7 +98,7 @@ public class SsoController {
 
 		StringBuilder builder = new StringBuilder();
 		builder.append("redirect:");
-		builder.append("http://" + ssoDomain + ":" + ssoServerPort + "/oauth/authorize");
+		builder.append("http://" + ssoDoamin + ":" + ssoServerPort + "/oauth/authorize");
 		builder.append("?response_type=code");
 		builder.append("&client_id=");
 		builder.append(getOAuthClientId());
@@ -113,7 +116,7 @@ public class SsoController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {
 		//
-		return "redirect:http://" + ssoDomain + ":" + ssoServerPort + "/userLogout?clientId=" + getOAuthClientId();
+		return "redirect:http://" + ssoDoamin + ":" + ssoServerPort + "/userLogout?clientId=" + getOAuthClientId();
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
