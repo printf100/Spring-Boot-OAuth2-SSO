@@ -87,4 +87,8 @@ public class MemberVo {
 	public Member toEntity() {
 		return new Member(memberemail, memberphone, membername, memberid, memberpassword);
 	}
+	
+	public Member toSnsEntity() {
+		return new Member(memberemail, memberphone, membername, memberid, memberpassword, snstype, snsid);
+	}
 }

@@ -1,0 +1,53 @@
+# 외부 DB 설정시 아래의 주석을 활성화 시킨 후 관련 DB 설정 정보를 입력한다.
+server:
+  context-path: /
+  port: 8585  
+  session:
+    cookie:
+      name: APPSESSIONID
+      
+#ssoDomain: 3.136.253.121
+ssoDomain: localhost
+
+spring:
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:oracle:thin:@qclass.iptime.org:1521:xe
+    driverClassName: oracle.jdbc.OracleDriver
+    username: bigfinal03
+    password: bigfinal03
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true      
+      
+# sns 로그인 링크     
+social-link:
+  # kakao  
+  kakao-rest-api-key: 4be0db1fcb83bc9cf8c11a9fbca76507
+  kakao-login-link: https://kauth.kakao.com/oauth/authorize
+  # naver
+  naver-rest-api-key: ZnB1hkTBDYaRrVgb5rpz
+  naver-rest-api-secret: kMIczoc6Zx
+  naver-login-link: https://nid.naver.com/oauth2.0/authorize
+  naver-oauth-state : 550e8400-e29b-41d4-a716-446655440000
+
+
+
+logging.level:
+  root: warn
+  org.springframework:
+    web: warn
+    security: info
+    boot: info
+  org.hibernate:
+    SQL: warn
+  com.devs: debug

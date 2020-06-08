@@ -48,7 +48,7 @@ public class Member {
 
 	@Column(name = "SNS_ID")
 	private String snsid;
-
+	
 	@Column(name = "TOKEN_ID")
 	private String tokenId;
 
@@ -65,7 +65,8 @@ public class Member {
 		this.snsid = snsid;
 	}
 
-	public Member(String memberemail, String memberphone, String membername, String memberid, String memberpassword) {
+	public Member(String memberemail, String memberphone, String membername, String memberid,
+			String memberpassword) {
 		this.memberemail = memberemail;
 		this.memberphone = memberphone;
 		this.membername = membername;

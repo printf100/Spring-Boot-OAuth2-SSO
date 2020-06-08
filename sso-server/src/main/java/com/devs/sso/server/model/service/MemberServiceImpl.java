@@ -2,12 +2,12 @@ package com.devs.sso.server.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -16,11 +16,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.devs.sso.server.model.domain.entity.Channel;
 import com.devs.sso.server.model.domain.entity.Member;
+import com.devs.sso.server.model.domain.entity.MemberProfile;
+import com.devs.sso.server.model.domain.repository.ChannelRepository;
+import com.devs.sso.server.model.domain.repository.MemberProfileRepository;
 import com.devs.sso.server.model.domain.repository.MemberRepository;
 import com.devs.sso.server.model.vo.MemberVo;
-
-import ch.qos.logback.core.pattern.parser.Parser;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -28,12 +30,19 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
 
+	@Autowired
+	private MemberProfileRepository memberProfileRepository;
+
+	@Autowired
+	private ChannelRepository channelRepository;
+
 	/*
 	 * 회원가입
 	 */
 
-	// 회원가입
+	// 일반 회원가입
 	@Override
+	@Transactional
 	public int join(MemberVo vo) {
 
 		Member member = vo.toEntity();
@@ -41,7 +50,60 @@ public class MemberServiceImpl implements MemberService {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		member.setMemberpassword(passwordEncoder.encode(vo.getMemberpassword()));
 
-		return memberRepository.save(member).getMembercode();
+		int savedMemberCode = memberRepository.save(member).getMembercode();
+
+		if (savedMemberCode > 0) {
+
+			// profile 에 member_code만 주입하여 row 생성
+			MemberProfile memberProfile = new MemberProfile();
+			memberProfile.setMember_code(savedMemberCode);
+			int savedMemberProfileMemberCode = memberProfileRepository.save(memberProfile).getMember_code();
+			System.out.println("MemberProfile inserted in member_code : " + savedMemberProfileMemberCode);
+
+			// channel 에 member_code만 주입하여 row 생성
+			Channel channel = new Channel();
+			channel.setMember_code(savedMemberCode);
+			channel.setChannel_type("P");
+			int savedChannelMemberCode = channelRepository.save(channel).getMember_code();
+			System.out.println("MemberProfile inserted in member_code : " + savedChannelMemberCode);
+
+			return savedMemberCode;
+		} else {
+			return 0;
+		}
+
+	}
+
+	// sns 회원가입
+	@Override
+	public int snsJoin(MemberVo vo) {
+
+		Member member = vo.toSnsEntity();
+
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		member.setMemberpassword(passwordEncoder.encode(vo.getMemberpassword()));
+
+		int savedMemberCode = memberRepository.save(member).getMembercode();
+
+		if (savedMemberCode > 0) {
+
+			// profile 에 member_code만 주입하여 row 생성
+			MemberProfile memberProfile = new MemberProfile();
+			memberProfile.setMember_code(savedMemberCode);
+			int savedMemberProfileMemberCode = memberProfileRepository.save(memberProfile).getMember_code();
+			System.out.println("MemberProfile inserted in member_code : " + savedMemberProfileMemberCode);
+
+			// channel 에 member_code만 주입하여 row 생성
+			Channel channel = new Channel();
+			channel.setMember_code(savedMemberCode);
+			channel.setChannel_type("P");
+			int savedChannelMemberCode = channelRepository.save(channel).getMember_code();
+			System.out.println("MemberProfile inserted in member_code : " + savedChannelMemberCode);
+
+			return savedMemberCode;
+		} else {
+			return 0;
+		}
 	}
 
 	// 이메일 유효성 검증
@@ -103,6 +165,20 @@ public class MemberServiceImpl implements MemberService {
 		} else {
 			throw new UsernameNotFoundException(account);
 		}
+	}
+
+	/*
+	 * sns
+	 */
+
+	// 각 sns 별로 sns_id 를 snsid로 사용함. 이를 이용해 sns 회원가입이 되어 있는지 체크
+	@Override
+	public Member snsMemberCheck(String snsid) {
+		Member vo = null;
+		vo = memberRepository.findBySnsid(snsid);
+
+		// sns 회원가입 여부에따라 vo가 null일 수도 있고 / 회원정보를 담고있을수도 있다.
+		return vo;
 	}
 
 }

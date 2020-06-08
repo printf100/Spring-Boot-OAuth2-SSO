@@ -1,9 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%@page isELIgnored="false" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>Insert title here</title>
+
+	<link rel="icon" type="image/png" href="/resources/images/icons/favicon.ico"/>
+
+	<link rel="stylesheet" type="text/css" href="/resources/vendor/bootstrap/css/bootstrap.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/resources/fonts/iconic/css/material-design-iconic-font.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/resources/vendor/animate/animate.css">
+
+	<link rel="stylesheet" type="text/css" href="/resources/vendor/css-hamburgers/hamburgers.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/resources/vendor/animsition/css/animsition.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/resources/vendor/select2/select2.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/resources/vendor/daterangepicker/daterangepicker.css">
+
+	<link rel="stylesheet" type="text/css" href="/resources/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/resources/css/main.css">
 
 <!-- START :: js import -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -11,81 +36,105 @@
 
 </head>
 <body>
-	<section>
-	 	
-		
-		<div>
-			<h1>
-				DEVS
-			</h1>
-			<h3>
-				Ä£±¸µéÀÇ »çÁø°ú µ¿¿µ»óÀ» º¸·Á¸é °¡ÀÔÇÏ¼¼¿ä.
-			</h3>
-			
-			<div>
-				<span>
-					<a id="custom-login-btn" href="javascript:loginWithKakaoRest()">
-<!-- 						<img src="/resources/images/social/kakaolink_btn_medium.png" width="100px;"/> -->
-					</a>
-				</span>
-				<span>
-					<a id="naver_id_login"></a>
-				</span>
-			</div>	
-			
-			<div>
-				<hr>
-			</div>
-			
-			<div>		
-				<form id="joinForm" action="/join" method="post" name="MemberVo">
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 				
-					<fieldset>
-						<legend>optional</legend>
-						
-						<!-- ÀÌ¸ŞÀÏ -->
-						<input type="text" name="memberaccount" placeholder="ÈŞ´ëÆù ¹øÈ£ ¶Ç´Â ÀÌ¸ŞÀÏ ÁÖ¼Ò">
-						<div id="emailchk"></div>
-						
-						<!-- ¼º¸í -->
-						<input type="text" name="membername" placeholder="»ç¿ëÀÚ ÀÌ¸§">
-					</fieldset>
+				<span class="login100-form-title p-b-49">
+					Devs <img src="/resources/images/logo.png" width="15%;"></img> Join
+                </span>
+				<p>ì¹œêµ¬ë“¤ì˜ ì‚¬ì§„ê³¼ ë™ì˜ìƒì„ ë³´ë ¤ë©´ ê°€ì…í•´ì£¼ì„¸ìš”.</p><br>
+
+				<form id="joinForm" action="/join" method="post" name="MemberVo" class="login100-form validate-form">
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
+						<span class="label-input100">íœ´ëŒ€í° ë²ˆí˜¸ ë˜ëŠ” ì´ë©”ì¼ ì£¼ì†Œ</span>
+						<input class="input100" type="text" name="memberaccount" placeholder="Type your phone or email">
+						<span class="focus-input100" data-symbol="&#xf206;"></span>
+                    </div>
+                    <div id="emailchk"></div>
+                    
+                    <div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
+						<span class="label-input100">ì‚¬ìš©ì ì´ë¦„</span>
+						<input class="input100" type="text" name="membername" placeholder="Type your username">
+						<span class="focus-input100" data-symbol="&#xf206;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate="Password is required">
+						<span class="label-input100">ì‚¬ìš©ì ì•„ì´ë””</span>
+						<input class="input100" type="text" name="memberid" required="required" placeholder="Type your ID">
+						<span class="focus-input100" data-symbol="&#xf190;"></span>
+                    </div>
+                    <div id="idchk"></div>
+                    
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+						<span class="label-input100">ë¹„ë°€ë²ˆí˜¸</span>
+						<input class="input100" type="password" name="memberpassword" required="required" placeholder="Type your password">
+						<span class="focus-input100" data-symbol="&#xf190;"></span>
+					</div>
+				
+					<div class="text-right p-t-8 p-b-31"></div>
 					
-					<fieldset>
-						<legend>essential</legend>
-						
-						<!-- ¾ÆÀÌµğ -->
-						<input type="text" name="memberid" required="required" placeholder="»ç¿ëÀÚ ¾ÆÀÌµğ">
-						<div id="idchk"></div>
-						
-						<!-- ºñ¹Ğ¹øÈ£ -->
-						<input type="password" name="memberpassword" required="required" placeholder="ºñ¹Ğ¹øÈ£">
-					</fieldset>
-					
-					<!-- È¸¿ø°¡ÀÔ ¹öÆ° -->					
-					<input type="submit" value="JOIN">
-					<!-- À¯È¿¼º°ËÃş Ãâ·ÂºÎºĞ -->
-					
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn" type="submit" value="JOIN">
+								Join
+							</button>
+						</div>
+					</div>
 				</form>
 
-			</div>		
-			
-		</div>
+				<div class="txt1 text-center p-t-54 p-b-20">
+					<span>
+						ì¹´ì¹´ì˜¤í†¡ & ë„¤ì´ë²„ ë¡œê·¸ì¸
+					</span>
+				</div>
 
-	 
- 		<div>
-			°èÁ¤ÀÌ ÀÖÀ¸½Å°¡¿ä?
-			<a href="/loginForm">&nbsp;·Î±×ÀÎ </a>
+				<div class="flex-c-m">
+					<a href="javascript:loginWithKakaoRest()" class="login100-social-item bg1" id="custom-login-btn">
+						<img src="/resources/images/kakaolink_btn_medium.png"></img>
+					</a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+
+					<a href="javascript:loginWithNaverRest()" class="login100-social-item bg2">
+						<img src="/resources/images/naver.png" width="135%"></img>
+					</a>
+
+				</div>
+
+				<div class="flex-col-c p-t-155">
+					<span class="txt1 p-b-17">
+						ê³„ì •ì´ ìˆìœ¼ì‹ ê°€ìš”?
+					</span>
+
+					<a href="/loginForm" class="txt2">
+						<div class="container-login100-form-btn">
+							<div class="wrap-login100-form-btn">
+								<div class="login100-form-bgbtn"></div>
+								<button class="login100-form-btn">
+									Login
+								</button>
+							</div>
+						</div>
+					</a>
+				</div>
+				
+			</div>
 		</div>
-	</section>
+	</div>
+
+	<div id="dropDownSelect1"></div>
+	
+	<script src="/resources/js/main.js"></script>
+	
 </body>
 
-<!-- START :: submit ¹öÆ° disabled handler -->
+<!-- START :: submit ë²„íŠ¼ disabled handler -->
 <script type="text/javascript">
 
-	var memberaccount;	// email ¶Ç´Â phoneÀÇ input name ¼³Á¤
+	var memberaccount;	// email ë˜ëŠ” phoneì˜ input name ì„¤ì •
 
-	// null ¹× °ø¹é Ã¼Å©, À¯È¿¼º Ã¼Å©
+	// null ë° ê³µë°± ì²´í¬, ìœ íš¨ì„± ì²´í¬
 	var memberaccountBool = true;
 	var membernameBool = true;
 	var memberidBool = false;
@@ -94,19 +143,19 @@
 	$(function() {
 		$("input[type='submit']").attr("disabled", "disabled");
 
-		// input nameÀÇ ÅÂ±×°¡ º¯°æµÊ¿¡ µû¶ó Á¸ÀçÇÏ´ÂÁö ¿©ºÎ
+		// input nameì˜ íƒœê·¸ê°€ ë³€ê²½ë¨ì— ë”°ë¼ ì¡´ì¬í•˜ëŠ”ì§€ ì—¬ë¶€
 		if($("input[name='memberaccount']").length > 0) {	memberaccount = $("input[name='memberaccount']");}
 		if($("input[name='memberemail']").length > 0) {	memberaccount = $("input[name='memberemail']");	}
 		if($("input[name='memberphone']").length > 0) { memberaccount = $("input[name='memberphone']");}
 		
-		// À¯È¿¼º °ËÁõ ÈÄ submit ¹öÆ° disable handler È£Ãâ
+		// ìœ íš¨ì„± ê²€ì¦ í›„ submit ë²„íŠ¼ disable handler í˜¸ì¶œ
 		memberaccount.keyup(function() {disableHandler();});
 		$("input[name='membername']").keyup(function(){disableHandler()});
 		$("input[name='memberid']").keyup(function() {disableHandler();});
 		$("input[name='memberpassword']").keyup(function() {disableHandler();});
 	});
 	
-	// submit ¹öÆ° disable handler
+	// submit ë²„íŠ¼ disable handler
 	function disableHandler() {
 		
 		if($("input[name='memberpassword']").val() != null && $("input[name='memberpassword']").val() != "") {
@@ -126,9 +175,9 @@
 	}		                                                             
 
 </script>
-<!-- END :: submit ¹öÆ° disabled handler -->
+<!-- END :: submit ë²„íŠ¼ disabled handler -->
 
-<!-- START :: id Áßº¹°Ë»ç -->
+<!-- START :: id ì¤‘ë³µê²€ì‚¬ -->
 <script type="text/javascript">
 
 	$(function(){
@@ -154,41 +203,41 @@
 					success: function(msg){
 						
 						if (msg.check == true) {
-							$("#idchk").text("ÀÌ¹Ì Á¸ÀçÇÏ´Â ID ÀÔ´Ï´Ù.").css("color","red");
+							$("#idchk").text("ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ID ì…ë‹ˆë‹¤.").css("color","red");
 							memberidBool = false;
 						} else {
-							$("#idchk").text("»ç¿ë°¡´ÉÇÑ ID ÀÔ´Ï´Ù.").css("color","green");
+							$("#idchk").text("ì‚¬ìš©ê°€ëŠ¥í•œ ID ì…ë‹ˆë‹¤.").css("color","green");
 							memberidBool = true;
 						}
 						
-						disableHandler(); // submit ¹öÆ° disabled handler
+						disableHandler(); // submit ë²„íŠ¼ disabled handler
 					},
 					
 					error: function(){
-						alert("Åë½Å½ÇÆĞ");
+						alert("í†µì‹ ì‹¤íŒ¨");
 					}
 				});
 				
 			} else {
 				memberidBool = false;
-				disableHandler(); // submit ¹öÆ° disabled handler
+				disableHandler(); // submit ë²„íŠ¼ disabled handler
 			}
 			
 		});
 		
 	})
 </script>
-<!-- END :: id Áßº¹°Ë»ç -->
+<!-- END :: id ì¤‘ë³µê²€ì‚¬ -->
 
-<!-- START :: email, phone Å¸ÀÔÃ¼Å©, Áßº¹°Ë»ç -->
+<!-- START :: email, phone íƒ€ì…ì²´í¬, ì¤‘ë³µê²€ì‚¬ -->
 <script type="text/javascript">
 
 	$(function() {
 
-		// ÀÌ¸ŞÀÏ Á¤±Ô½Ä
+		// ì´ë©”ì¼ ì •ê·œì‹
 		var regExpEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 		
-		// ÇÚµåÆù¹øÈ£ Á¤±Ô½Ä (010-1234-1234)
+		// í•¸ë“œí°ë²ˆí˜¸ ì •ê·œì‹ (010-1234-1234)
 		var regExpPhone = /^\d{3}-\d{4}-\d{4}$/;
 		
 		memberaccount.keyup(function() {
@@ -198,7 +247,7 @@
 			
 			if(accountValue != null && accountValue != "") {
 				
-				if(regExpEmail.test(accountValue)) { // ÀÌ¸ŞÀÏ Çü½ÄÀÌ¶ó¸é
+				if(regExpEmail.test(accountValue)) { // ì´ë©”ì¼ í˜•ì‹ì´ë¼ë©´
 					memberaccount.attr({
 						"name" : "memberemail"
 					});
@@ -207,7 +256,7 @@
 						"memberemail" : accountValue
 					}
 				
-					// ÀÌ¸ŞÀÏ Áßº¹ °Ë»ç
+					// ì´ë©”ì¼ ì¤‘ë³µ ê²€ì‚¬
 					$.ajax({
 						type: "post",
 						url: "/emailCheck",
@@ -218,22 +267,22 @@
 						success: function(msg){
 							
 							if (msg.check == true) {
-								$("#emailchk").text("ÀÌ¹Ì Á¸ÀçÇÏ´Â EMAIL ÀÔ´Ï´Ù.").css("color","red");
+								$("#emailchk").text("ì´ë¯¸ ì¡´ì¬í•˜ëŠ” EMAIL ì…ë‹ˆë‹¤.").css("color","red");
 								memberaccountBool = false;
 							} else {
-								$("#emailchk").text("»ç¿ë°¡´ÉÇÑ EMAIL ÀÔ´Ï´Ù.").css("color","green");
+								$("#emailchk").text("ì‚¬ìš©ê°€ëŠ¥í•œ EMAIL ì…ë‹ˆë‹¤.").css("color","green");
 								memberaccountBool = true;
 							}
 							
-							disableHandler(); // submit ¹öÆ° disabled handler
+							disableHandler(); // submit ë²„íŠ¼ disabled handler
 						},
 						
 						error: function(){
-							alert("Åë½Å½ÇÆĞ");
+							alert("í†µì‹ ì‹¤íŒ¨");
 						}
 					});
 				
-				} else if(regExpPhone.test(accountValue)) {	// ÇÚµåÆù¹øÈ£ Çü½ÄÀÌ¶ó¸é
+				} else if(regExpPhone.test(accountValue)) {	// í•¸ë“œí°ë²ˆí˜¸ í˜•ì‹ì´ë¼ë©´
 					$("#joinchk").hide();
 				
 					memberaccount.attr({                                                                                                                                                                                                                                                                               
@@ -243,7 +292,7 @@
 				
 			} else {
 				memberaccountBool = true;
-				disableHandler(); // submit ¹öÆ° disabled handler
+				disableHandler(); // submit ë²„íŠ¼ disabled handler
 			}
 			
 		});
@@ -251,7 +300,7 @@
 	});
 	
 </script>
-<!-- END :: email, phone Å¸ÀÔÃ¼Å©, Áßº¹°Ë»ç -->
+<!-- END :: email, phone íƒ€ì…ì²´í¬, ì¤‘ë³µê²€ì‚¬ -->
 
 <!-- START :: form submit -->
 <script type="text/javascript">
@@ -272,5 +321,37 @@
 
 </script>
 <!-- END :: form submit -->
+
+<!-- START :: application.yml ì°¸ì¡° -->
+	<spring:eval expression="@environment.getProperty('server.port')" var="serverPort"/>
+	<spring:eval expression="@environment.getProperty('ssoDomain')" var="ssoDomain"/>
+	
+	<spring:eval expression="@environment.getProperty('social-link.kakao-login-link')" var="kakaoLoginLink"/>
+	<spring:eval expression="@environment.getProperty('social-link.kakao-rest-api-key')" var="kakaoRestApiKey"/>
+	
+	<spring:eval expression="@environment.getProperty('social-link.naver-login-link')" var="naverLoginLink"/>
+	<spring:eval expression="@environment.getProperty('social-link.naver-rest-api-key')" var="naverRestApiKey"/>
+	<spring:eval expression="@environment.getProperty('social-link.naver-oauth-state')" var="naverOauthState"/>
+<!-- END :: application.yml ì°¸ì¡° -->
+
+<!-- START :: KAKAO LOGIN -->
+	<script type="text/javascript">
+		function loginWithKakaoRest(){	
+			const url = '${kakaoLoginLink}?client_id=${kakaoRestApiKey}&redirect_uri=http://${ssoDomain}:${serverPort}/kakaoOauth&response_type=code';
+// 			const url = 'https://kauth.kakao.com/oauth/authorize?client_id=4be0db1fcb83bc9cf8c11a9fbca76507&redirect_uri=http://3.136.253.121:8585/kakaoOauth&response_type=code';
+			location.href=url;
+		}
+	</script>
+<!-- END :: KAKAO LOGIN -->
+
+<!-- START :: NAVER LOGIN -->
+	<script type="text/javascript">
+		function loginWithNaverRest(){
+			const url = '${naverLoginLink}?response_type=code&client_id=${naverRestApiKey}&redirect_uri=http://${ssoDomain}:${serverPort}/naverOauth&state=${naverOauthState}';
+// 			const url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=ZnB1hkTBDYaRrVgb5rpz&redirect_uri=http://3.136.253.121:8585/naverOauth&state=550e8400-e29b-41d4-a716-446655440000';
+			location.href=url;
+		}
+	</script>
+<!-- END :: NAVER LOGIN -->
 
 </html>

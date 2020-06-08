@@ -7,9 +7,8 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
 public class SsoServerApplication extends SpringBootServletInitializer {
-	//
+
 	public static void main(String[] args) {
-		//
 		SpringApplication.run(SsoServerApplication.class, args);
 	}
 
@@ -17,5 +16,5 @@ public class SsoServerApplication extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(SsoServerApplication.class);
 	}
-	
+
 }

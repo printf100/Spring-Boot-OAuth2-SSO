@@ -7,23 +7,18 @@ import com.devs.sso.server.model.domain.entity.Member;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Integer> {
-	
-	/*
-	 * 회원가입
-	 */
-	// 이메일 유효성 검증
-	public Long countByMemberemail(String memberemail);
-	
-	// 아이디 유효성 검증
-	public Long countByMemberid(String memberid);
-	
-	/*
-	 * 로그인
-	 */
+
+	// 로그인
 	public Member findByMemberid(String memberid);
 
 	public Member findByMemberemail(String memberemail);
 
 	public Member findByMemberphone(String memberphone);
+	
+	public Member findBySnsid(String snsid);
+
+	public Long countByMemberemail(String memberemail);
+
+	public Long countByMemberid(String memberid);
 
 }
